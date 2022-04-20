@@ -1,0 +1,23 @@
+{
+  "name": "camp_schmidt_air_quality_monitoring",
+  "version": "1.0.0",
+  "description": "Air quality monitoring in PGCPS",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aguayo16/Camp_Schmidt_Air_Quality_monitoring.git"
+  },
+  "author": "Luis Aguayo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aguayo16/Camp_Schmidt_Air_Quality_monitoring/issues"
+  },
+  "homepage": "https://github.com/aguayo16/Camp_Schmidt_Air_Quality_monitoring#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
