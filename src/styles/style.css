@@ -1,0 +1,45 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: rgba(10, 92, 49, 0.25);
+}
+
+.schmidt-logo {
+    width: 100%;
+    margin: 0px;
+}
+
+.link-container {
+    background-color: rgba(196, 196, 196, 1);
+    height: 72px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav{
+    width: 500px;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.tab-link {
+    color: rgba(255, 255, 255, 1);
+    font-size: 30px;
+    text-decoration: none;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* unvisited link */
+a.tab-link:hover {
+    color: green;
+}
+
+
+
+#map { height: 100%; }
