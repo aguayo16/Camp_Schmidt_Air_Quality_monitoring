@@ -6,4 +6,4 @@ app.listen(PORT, () => {
     console.log('Listening server at PORT ' + PORT);
 })
 
-app.use(express.static('src/home.html'));
+app.use(express.static('src'));

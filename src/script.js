@@ -67,5 +67,8 @@ function addSensor() {
     xhr.send(data);
 }
 
+
 initGroup();
 addSensor();
+
+
