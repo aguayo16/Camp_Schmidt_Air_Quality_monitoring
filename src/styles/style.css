@@ -22,7 +22,7 @@ body {
 }
 
 nav{
-    width: 500px;
+    width: 600px;
     display: flex;
     justify-content: space-around;
 }
@@ -33,6 +33,7 @@ nav{
     font-size: 30px;
     text-decoration: none;
     font-family: 'Open Sans', sans-serif;
+    font-weight: bold;
 }
 
 /* unvisited link */
@@ -42,4 +43,5 @@ a.tab-link:hover {
 
 
 
-#map { height: 100%; }
+#map { height: 80%; }
+
