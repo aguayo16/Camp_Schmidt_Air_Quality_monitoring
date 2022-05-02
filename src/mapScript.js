@@ -21,11 +21,61 @@ function initMap() {
   return map;
 }
 
+function calculateAqi(sensor){
+    const pm2_5 = Math.floor( sensor[6] * 10) / 10;  //pm_25 value truncated at first decimal point
+    let bp1;
+    let bp2;
+    let i1;
+    let i2;
+
+    //breakpoints
+    if (pm2_5 >= 0.0 && pm2_5 <= 12.0){
+      bp1 = 0.0;
+      bp2 = 12.0;
+      i1 = 0;
+      i2 = 50;
+    } else if (pm2_5 > 12.1 && pm2_5<=35.4){
+      bp1 = 12.1;
+      bp2 = 35.4;
+      i1 = 51;
+      i2 = 100;
+    } else if (pm2_5 > 35.5 && pm2_5<=55.4){
+      bp1 = 35.5;
+      bp2 = 55.4;
+      i1 = 101;
+      i2 = 150;
+    } else if (pm2_5 > 55.5 && pm2_5<= 150.4){
+      bp1 = 55.5;
+      bp2 = 150.4;
+      i1 = 151;
+      i2 = 200;
+    } else if (pm2_5 > 150.5 && pm2_5<= 250.4){
+      bp1 = 150.5;
+      bp2 = 250.4;
+      i1 = 201;
+      i2 = 300;
+    } else if (pm2_5 > 250.5 && pm2_5 <=350.4){
+      bp1 = 250.5;
+      bp2 = 350.4;
+      i1 = 301;
+      i2 = 400;
+    } else if (pm2_5 > 350.5 && pm2_5<=500.4){
+      bp1 = 350.5;
+      bp2 = 500.4;
+      i1 = 401;
+      i2 = 500;
+    }
+
+    //returns result of AQI formula rounded to nearest interger
+    return Math.round((((i2 -i1)/(bp2 - bp1)) * (pm2_5 - bp1)) + i1);
+}
+
 //Adds Circles to each sensor's location
 function addCircles(map, collection) {
   console.log(collection.length);
   collection.forEach((index) => {
     console.log(index);
+    // console.log(calculateAqi(index));
     const circle = L.circleMarker([index[4], index[5]], {
       color: "green",
       fillColor: "green",
@@ -49,7 +99,7 @@ function addCircles(map, collection) {
     //Adds Temp value to the circles
     const myIcon = L.divIcon({
       className: "my-div-icon",
-      html: "<strong>" + index[2] + "</strong>",
+      html: "<strong>" + calculateAqi(index) + "</strong>",
       iconAnchor: [6, 9],
     });
     L.marker([index[4], index[5]], {
@@ -63,7 +113,7 @@ function mainEvent() {
 
   async function getSensorsData() {
     const response = await fetch(
-      "https://api.purpleair.com/v1/groups/1039/members?fields=name,temperature,humidity,latitude,longitude",
+      "https://api.purpleair.com/v1/groups/1039/members?fields=name,temperature,humidity,latitude,longitude,pm2.5",
       {
         headers: {
           "X-API-Key": "14349495-BB81-11EC-B330-42010A800004",
