@@ -75,6 +75,8 @@ function calculateAqi(sensor){
 
     //returns result of AQI formula rounded to nearest interger
     return Math.round((((i2 -i1)/(bp2 - bp1)) * (pm2_5 - bp1)) + i1);
+  }
+  
 //Changes circle color based on value
 function getColor(temp) {
   switch (true) {
