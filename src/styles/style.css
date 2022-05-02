@@ -5,6 +5,8 @@
 
 body {
     background-color: rgba(10, 92, 49, 0.25);
+    font-family: 'Open Sans', sans-serif;
+    color: white;
 }
 
 .schmidt-logo {

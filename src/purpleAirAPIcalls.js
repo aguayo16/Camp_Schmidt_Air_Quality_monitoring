@@ -97,6 +97,6 @@ async function getSensorsData() {
 }
 //deleteMembers();
 
-//getSensorsData();
+getSensorsData();
 
 //getSensorList();
