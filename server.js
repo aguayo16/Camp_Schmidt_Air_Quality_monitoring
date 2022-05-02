@@ -3,13 +3,17 @@
 // - SAVE TO DATABASE
 // - AUTHENTICATION/PRIVACY, Saving delicate information (e.g API keys) here since,
 //   it is not visible to the user
+import express from 'express';
+import apiRoutes from './server/apiRoutes.js';
 
-const express = require('express');
+
 const app = express();
 let PORT = 3000;
+
+app.use(express.static('src'));
+// app.use('/api', apiRoutes);
 
 app.listen(PORT, () => {
     console.log('Listening server at PORT ' + PORT);
 })
 
-app.use(express.static('src'));

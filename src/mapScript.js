@@ -1,12 +1,19 @@
-//TO-DO: Hide API key, 
-//       hide group ID, 
-//       Update the map without refresh, 
+
+//TO-DO: Hide API key,
+//       hide group ID,
+//       Update the map without refresh,
 //       Calculate AQI and add it to the circle value,
 //       Change circle color depending on the AQI level
+//       Add Marker Clusters for better functionality and look (If there is time)
 
 //Makes Map
 function initMap() {
-  const map = L.map("map").setView([38.7849, -76.8721], 10);
+  const map = L.map("map", {
+    //Figure out the smoothest  zooming for usability
+    zoomSnap: 0.1,
+    zoomDelta: 0,
+  }).setView([38.7849, -76.8721], 10);
+
   L.tileLayer(
     "https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}",
     {
@@ -68,6 +75,22 @@ function calculateAqi(sensor){
 
     //returns result of AQI formula rounded to nearest interger
     return Math.round((((i2 -i1)/(bp2 - bp1)) * (pm2_5 - bp1)) + i1);
+//Changes circle color based on value
+function getColor(temp) {
+  switch (true) {
+    case (temp<47):
+      return 'blue';
+      break;
+    case (temp>60 && temp <= 70):
+      return 'red';
+      break;
+    case (temp>70 || temp===null):
+      return 'green';
+      break;
+    default:
+      return 'grey';
+      break;
+  }
 }
 
 //Adds Circles to each sensor's location
@@ -77,11 +100,20 @@ function addCircles(map, collection) {
     console.log(index);
     // console.log(calculateAqi(index));
     const circle = L.circleMarker([index[4], index[5]], {
-      color: "green",
-      fillColor: "green",
+      color: getColor(index[2]),
+      fillColor: getColor(index[2]),
       fillOpacity: 0.7,
       radius: 15,
     }).addTo(map);
+
+    map.on('click', function(e) {
+      map.flyTo(e.latlng, 13, {
+        animate: true,
+        duration: 1.5
+      });
+    });
+
+    L.gridLayer({updateWhenZooming: false});
 
     const popUpMessage = `
     <div style="
@@ -93,8 +125,14 @@ function addCircles(map, collection) {
       <strong>Temperature: </strong> ${index[2]} <br/>
     </div>
     `;
+
     //Adds Pop Up Message when a circle is clicked
     circle.bindPopup(popUpMessage);
+
+    //Centers Pop Up message in the circle when clicked
+    circle.on("click", function (ev) {
+      circle.openPopup(circle.getLatLng());
+    });
 
     //Adds Temp value to the circles
     const myIcon = L.divIcon({
