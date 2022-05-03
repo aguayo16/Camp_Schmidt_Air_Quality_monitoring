@@ -3,10 +3,14 @@
 // - SAVE TO DATABASE
 // - AUTHENTICATION/PRIVACY, Saving delicate information (e.g API keys) here since,
 //   it is not visible to the user
+import dotenv from 'dotenv';
 import express from 'express';
 
+dotenv.config();
+
 const app = express();
-let PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
 
 app.use(express.static('src'));
 // app.use('/api', apiRoutes);
