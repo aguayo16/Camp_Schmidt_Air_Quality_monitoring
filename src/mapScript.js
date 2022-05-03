@@ -1,9 +1,7 @@
-
+import * as AQIcalculator from './AQIcalculator.js';
 //TO-DO: Hide API key,
 //       hide group ID,
 //       Update the map without refresh,
-//       Calculate AQI and add it to the circle value,
-//       Change circle color depending on the AQI level
 //       Add Marker Clusters for better functionality and look (If there is time)
 
 //Makes Map
@@ -29,21 +27,26 @@ function initMap() {
 }
 
 //Changes circle color based on value
-function getColor(temp) {
-  switch (true) {
-    case (temp<47):
-      return 'blue';
-      break;
-    case (temp>60 && temp <= 70):
-      return 'red';
-      break;
-    case (temp>70 || temp===null):
-      return 'green';
-      break;
-    default:
-      return 'grey';
-      break;
+function setStatusColor(aqi) {
+  let color = '';
+
+  if (aqi >= 301) {
+      color = '#7e0022';
+  } else if (aqi >= 201) {
+      color = '#8f3f97';
+  } else if (aqi >= 151) {
+      color = '#ff0100';
+  }else if (aqi >= 101) {
+      color = '#ff7d00';
+  }else if (aqi >= 51) {
+      color = '#feff00';
+  }else if (aqi >= 0) {
+      color = '#00e400';
+  }else {
+      color = '#969696';
   }
+  
+  return color;
 }
 
 //Adds Circles to each sensor's location
@@ -51,10 +54,15 @@ function addCircles(map, collection) {
   console.log(collection.length);
   collection.forEach((index) => {
     console.log(index);
+
+    const calculatedAQI = AQIcalculator.aqiFromPM(parseFloat(index[6]));
+    const AQIdescription = AQIcalculator.getAQIDescription(calculatedAQI);
+
+    console.log(calculatedAQI);
     const circle = L.circleMarker([index[4], index[5]], {
-      color: getColor(index[2]),
-      fillColor: getColor(index[2]),
-      fillOpacity: 0.7,
+      color: setStatusColor(calculatedAQI),
+      fillColor: setStatusColor(calculatedAQI),
+      fillOpacity: 0.8,
       radius: 15,
     }).addTo(map);
 
@@ -69,12 +77,15 @@ function addCircles(map, collection) {
 
     const popUpMessage = `
     <div style="
+            text-align: center;
             background-color: yellow;
             padding: 15px;
-            border-radius: 10px">
+            border-radius: 10px
+            width: 500px">
       <strong>Label: </strong>  ${index[1]} <br/>
       <strong>Sensor ID: </strong> ${index[0]}  <br/>
-      <strong>Temperature: </strong> ${index[2]} <br/>
+      <strong>AQI: </strong> ${calculatedAQI} <br/>
+      <strong>AQI Status Description: </strong> ${AQIdescription} <br/>
     </div>
     `;
 
@@ -89,7 +100,8 @@ function addCircles(map, collection) {
     //Adds Temp value to the circles
     const myIcon = L.divIcon({
       className: "my-div-icon",
-      html: "<strong>" + index[2] + "</strong>",
+      html: `<strong style="color: black" >` + calculatedAQI + `</strong>`,
+  
       iconAnchor: [6, 9],
     });
     L.marker([index[4], index[5]], {
@@ -98,24 +110,22 @@ function addCircles(map, collection) {
   });
 }
 
-function mainEvent() {
+async function mainEvent() {
   const myMap = initMap();
 
-  async function getSensorsData() {
-    const response = await fetch(
-      "https://api.purpleair.com/v1/groups/1039/members?fields=name,temperature,humidity,latitude,longitude",
-      {
-        headers: {
-          "X-API-Key": "14349495-BB81-11EC-B330-42010A800004",
-        },
-      }
-    );
-    const result = await response.json();
+  const response = await fetch(
+    "https://api.purpleair.com/v1/groups/1039/members?fields=name,temperature,humidity,latitude,longitude,pm2.5",
+    {
+      headers: {
+        "X-API-Key": "14349495-BB81-11EC-B330-42010A800004",
+      },
+    }
+  );
+  const result = await response.json();
+  addCircles(myMap, result.data);
 
-    addCircles(myMap, result.data);
-  }
-
-  getSensorsData();
+  
+  
 }
 
 //Loads the map with the API data

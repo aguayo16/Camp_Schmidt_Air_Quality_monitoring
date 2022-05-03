@@ -46,3 +46,46 @@
     width: 30%;
     height: 100%;
 }
+
+.green-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.humidity, 
+.temp, 
+.pressure {
+    font-size: 18px;
+    font-weight: bold;
+    
+    margin-left: 25px;
+}
+
+.sensor-name {
+    margin-left: 80px;
+    margin-top: 40px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.AQI-info {
+    margin-left: 80px;
+    display: flex;
+    font-size: 24px;
+}
+
+.air-quality, .arr, .air-quality-status {
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.air-quality {
+    margin-left: 10px;
+}
+
+.message {
+    margin-left: 80px;
+    margin-right: 40px;
+    margin-top: 10px;
+}
