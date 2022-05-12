@@ -1,8 +1,4 @@
 import * as AQIcalculator from './AQIcalculator.js';
-//TO-DO: Hide API key,
-//       hide group ID,
-//       Update the map without refresh,
-//       Add Marker Clusters for better functionality and look (If there is time)
 
 //Makes Map
 function initMap() {

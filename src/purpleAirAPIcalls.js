@@ -10,11 +10,6 @@
 // 57841, CheverlyAQM_W3_1 (outside), sensor_index : 57841
 // 52833, CheverlyAQM_W1_2 (outside), sensor_index : 52833 NOT IN GROUP
 
-// Read Key: 14349495-BB81-11EC-B330-42010A800004
-// Write Key: 14353505-BB81-11EC-B330-42010A800004
-
-//TO-DO: Hide API-Keys, organize URLs
-
 const url =
   "https://api.purpleair.com/v1/groups?api_key=14353505-BB81-11EC-B330-42010A800004&name=PG%County%Sensors";
 
@@ -70,10 +65,6 @@ async function deleteMembers() {
   });
 }
 
-// makeGroupOfSensors();
-
-// addMembersToGroup();
-
 //Lists all the sensors in the specified group in terms of their member_id and index_id
 async function getSensorList() {
   const response = await fetch(
@@ -95,8 +86,8 @@ async function getSensorsData() {
   const result = await response.json();
   console.log(result);
 }
-//deleteMembers();
+
 
 getSensorsData();
 
-//getSensorList();
+
