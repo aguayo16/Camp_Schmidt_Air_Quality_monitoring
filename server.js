@@ -1,8 +1,3 @@
-// SERVER, ALLOWS US TO:
-// - Host files (HTML files and all of its paths along with any JS AND CSS)
-// - SAVE TO DATABASE
-// - AUTHENTICATION/PRIVACY, Saving delicate information (e.g API keys) here since,
-//   it is not visible to the user
 import dotenv from 'dotenv';
 import express from 'express';
 
